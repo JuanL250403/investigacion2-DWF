@@ -37,7 +37,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public UsuarioResponse editar(@PathVariable("id") Long id, @Valid @RequestBody UsuarioEditarRequest usuario) {
         return usuarioService.editarUsuario(id, usuario);
     }

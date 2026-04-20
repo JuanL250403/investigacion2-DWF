@@ -65,6 +65,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, HttpStatus.NOT_FOUND, request);
     }
 
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handler(Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, HttpStatus.INTERNAL_SERVER_ERROR, request);
