@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usuario-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usuario
+  template:
+    metadata:
+      labels:
+        app: usuario
+    spec:
+      containers:
+        - name: usuario
+          image: event-driven-usuario
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: usuario-config
+            - secretRef:
+                name: usuario-secret
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbit
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 15

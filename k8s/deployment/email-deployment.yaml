@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: email
+  template:
+    metadata:
+      labels:
+        app: email
+    spec:
+      containers:
+        - name: email
+          image: event-driven-email
+          ports:
+            - containerPort: 7070
+          envFrom:
+            - configMapRef:
+                name: email-config
+            - secretRef:
+                name: email-secret
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbit
+          readinessProbe:
+            tcpSocket:
+              port: 7070
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 7070
+            initialDelaySeconds: 40
+            periodSeconds: 15

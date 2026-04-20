@@ -1,0 +1,40 @@
+services:
+
+  usuario:
+    build:
+      context: ./usuario-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbit
+
+  email:
+    build:
+      context: ./email-service
+      dockerfile: Dockerfile
+    ports:
+      - "7070:7070"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+    depends_on:
+      - rabbit
+
+  rabbit:
+    image: rabbitmq:4.0-rc-management
+    container_name: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=event
+      - RABBITMQ_DEFAULT_PASS=driven
+    volumes:
+      - ../rabbitmq/data/:/var/lib/rabbitmq/
+      - ../rabbitmq/log/:/var/log/rabbitmq
+
+networks:
+  rabbitmq_network:
+    driver: bridge

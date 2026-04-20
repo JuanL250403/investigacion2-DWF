@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: usuario-config
+data:
+  # Base de Datos (H2)
+  SPRING_DATASOURCE_URL: "jdbc:h2:mem:usuariosDB"
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.h2.Driver"
+
+  # JPA / Hibernate
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "create-drop"
+  SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.H2Dialect"
+  SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: "true"
+
+  # SQL Init
+  SPRING_SQL_INIT_MODE: "always"
+
+  # H2 Console
+  SPRING_H2_CONSOLE_ENABLED: "true"
+  SPRING_H2_CONSOLE_PATH: "/h2-console"
+  SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: "true"
+
+  SPRING_RABBITMQ_PORT: "5672"
